@@ -12,10 +12,11 @@
     <title>@yield('title')</title>
 
     @include('layouts.css') <!-- Include your CSS files here -->
+    @livewireStyles
 </head>
 
 <body>
-  
+
 
     @include('header') <!-- Include your header here -->
 
@@ -32,6 +33,8 @@
     </div>
 
     @include('layouts.js') <!-- Include your JS files here -->
+    @livewireScripts
+
 </body>
 
 </html>
