@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\InvoiceLinkRequested::class => [
         \App\Listeners\SendInvoiceLinkSms::class,
     ],
+    \App\Events\SingleInvoiceLinkRequested::class => [
+        \App\Listeners\SendSingleInvoiceLinkSms::class,
+    ],
     ];
 
     /**

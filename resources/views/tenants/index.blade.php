@@ -36,6 +36,8 @@
                 <th>Property</th>
                 <th>Position</th>
                 <th>Service Details</th>
+                <th>Send Invoice</th>
+                <th>Invoice System</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -59,6 +61,19 @@
                     <td>{{ $tenant->property->position->name ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('tenants.services', $tenant->id) }}" class="btn btn-sm btn-warning" style="background-color: {{ $buttonColor }};">Services</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('invoice.send', $tenant->id) }}" class="btn btn-sm btn-warning" style="background-color: {{ $buttonColor }};">Send Invoice</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('invoice.change', $tenant->id) }}" class="btn btn-sm btn-success" onclick="return confirm('Are you sure you want to change the invoice system for this tenant?')">
+                            @if ($tenant->invoicing==1)
+                                Automatic
+                            @else
+                                Manual
+
+                            @endif
+                        </a>
                     </td>
                     <td>
 

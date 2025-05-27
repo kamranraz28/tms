@@ -17,6 +17,7 @@ class Tenant extends Model
         'nid_upload',
         'property_id',
         'status',
+        'invoicing',
     ];
 
     public function property()

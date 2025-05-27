@@ -103,5 +103,7 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
     });
 
     Route::get('/invoice', [TenantserviceController::class, 'invoice'])->name('sendInvoice');
+    Route::get('/invoice/change/{id?}', [InvoiceController::class, 'invoiceChange'])->name('invoice.change');
+    Route::get('/invoice/send/{id?}', [InvoiceController::class, 'sendInvoice'])->name('invoice.send');
 
 });
