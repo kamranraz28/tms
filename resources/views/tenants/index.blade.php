@@ -15,12 +15,13 @@
 
 
     <div class="d-flex justify-content-end mb-4">
+        <a class="btn btn-primary" href="{{ route('sendInvoice') }}" style="background-color: {{ $buttonColor }};">
+        <i class="fas fa-paper-plane"></i> Send Invoice to All Tenants
+        </a>
         <a class="btn btn-primary" href="{{ route('tenants.create') }}" style="background-color: {{ $buttonColor }};">
         <i class="fas fa-plus"> </i> Create Tenant
         </a>
-        <a class="btn btn-primary" href="{{ route('sendInvoice') }}" style="background-color: {{ $buttonColor }};">
-        <i class="fas fa-plus"> </i> Send Invoice
-        </a>
+
     </div>
 
 
@@ -36,8 +37,9 @@
                 <th>Property</th>
                 <th>Position</th>
                 <th>Service Details</th>
+                <th>Invoice Month</th>
                 <th>Send Invoice</th>
-                <th>Invoice System</th>
+                <th>Notify System</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -61,6 +63,16 @@
                     <td>{{ $tenant->property->position->name ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('tenants.services', $tenant->id) }}" class="btn btn-sm btn-warning" style="background-color: {{ $buttonColor }};">Services</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('month.change', $tenant->id) }}" class="btn btn-sm btn-info" onclick="return confirm('Are you sure you want to change the invoice month for this tenant?')">
+                            @if ($tenant->invoice_month==1)
+                                Current Month
+                            @else
+                                Previous Month
+
+                            @endif
+                        </a>
                     </td>
                     <td>
                         <a href="{{ route('invoice.send', $tenant->id) }}" class="btn btn-sm btn-warning" style="background-color: {{ $buttonColor }};">Send Invoice</a>

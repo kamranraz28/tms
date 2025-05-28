@@ -57,7 +57,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, $id)
     {
-       
+
         $this->userService->updateUser($request, $id);
         return redirect()->route('users.index')->with('success', 'User updated successfully!');
     }
@@ -75,7 +75,7 @@ class UserController extends Controller
     public function updateProfile(UpdateUserProfileRequest $request)
     {
         $this->userService->updateUserProfile($request);
-        return redirect()->route('users.dashboard')->with('success', 'Profile updated successfully!');
+        return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 
     public function destroy($id)

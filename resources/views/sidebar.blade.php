@@ -85,6 +85,24 @@
                 </li>
                 @endcan
 
+                <li class="nav-item">
+                    <a href="{{ route('costs.index') }}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+                        <span class="pcoded-mtext">Costs</span>
+                    </a>
+                </li>
+
+                <li class="nav-item pcoded-hasmenu">
+                    <a href="#!" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-layout"></i></span>
+                        <span class="pcoded-mtext">Reports</span>
+                    </a>
+                    <ul class="pcoded-submenu" style="background-color: {{ $sidebarColor }};">
+                        <li><a href="{{ route('reports.costs') }}">Cost Report</a></li>
+                    </ul>
+                </li>
+
+
 
             </ul>
         </div>

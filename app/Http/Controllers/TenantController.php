@@ -76,4 +76,13 @@ class TenantController extends Controller
         $tenant->delete();
         return redirect()->route('tenants.index')->with('success', 'Tenant deleted successfully.');
     }
+
+    public function monthChange($id)
+    {
+        $tenant = Tenant::findOrFail($id);
+        $tenant->invoice_month = !$tenant->invoice_month;
+        $tenant->save();
+
+        return redirect()->back()->with('success', 'Invoice month status updated successfully.');
+    }
 }

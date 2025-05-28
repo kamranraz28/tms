@@ -15,7 +15,7 @@ class SendInvoiceLinkSms
         $senderId = config('services.sms.sender_id');
         $smsApiUrl = config('services.sms.api_url');
 
-        $tenants = Tenant::with('tenantServices.service')->where('invoicing',1)->get();
+        $tenants = Tenant::with('tenantServices.service')->where('invoicing',1)->where('invoice_month',1)->get();
 
         foreach ($tenants as $tenant) {
             if (!$tenant->phone) continue;

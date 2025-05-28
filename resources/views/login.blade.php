@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Kamran</title>
+    <title>Tenant Management</title>
     <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 11]>
@@ -31,7 +31,7 @@
 <!-- [ auth-signin ] start -->
 <div class="auth-wrapper">
     <div class="auth-content text-center">
-        <img src="assets/images/logo.png" alt="" class="img-fluid mb-4">
+        <!-- <img src="assets/images/logo.png" alt="" class="img-fluid mb-4"> -->
         <div class="card borderless">
             <div class="row align-items-center ">
                 <div class="col-md-12">
@@ -48,10 +48,10 @@
                                 <input type="password" class="form-control" name="password" id="Password"
                                     placeholder="Password">
                             </div>
-                            <div class="custom-control custom-checkbox text-left mb-4 mt-2">
+                            <!-- <div class="custom-control custom-checkbox text-left mb-4 mt-2">
                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
                                 <label class="custom-control-label" for="customCheck1">Save credentials.</label>
-                            </div>
+                            </div> -->
                             <button class="btn btn-block btn-primary mb-4" style="background-color: {{ $buttonColor }};">Signin</button>
                             <hr>
                             <p class="mb-2 text-muted">Forgot password? <a href="{{route('resetPassord')}}"

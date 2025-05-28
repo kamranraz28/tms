@@ -19,4 +19,8 @@ class Service extends Model
     {
         return $this->hasMany(Tenantservice::class);
     }
+    public function costDetails()
+    {
+        return $this->hasMany(Costdetail::class);
+    }
 }

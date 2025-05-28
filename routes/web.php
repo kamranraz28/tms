@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CostController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TenantController;
 use App\Http\Controllers\TenantserviceController;
@@ -105,5 +107,21 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
     Route::get('/invoice', [TenantserviceController::class, 'invoice'])->name('sendInvoice');
     Route::get('/invoice/change/{id?}', [InvoiceController::class, 'invoiceChange'])->name('invoice.change');
     Route::get('/invoice/send/{id?}', [InvoiceController::class, 'sendInvoice'])->name('invoice.send');
+
+
+    Route::get('/month/change/{id?}', [TenantController::class, 'monthChange'])->name('month.change');
+
+
+    Route::prefix('costs')->name('costs.')->group(function () {
+        Route::resource('/', CostController::class)->parameters(['' => 'cost']);
+    });
+
+    Route::prefix('reports')->name('reports.')->group(function () {
+            Route::get('/costs', [ReportController::class, 'costs'])->name('costs');
+            Route::post('/costs/filter', [ReportController::class, 'filterCosts'])->name('filterCosts');
+            Route::get('/costs/reset', [ReportController::class, 'resetCosts'])->name('resetCosts');
+
+
+    });
 
 });

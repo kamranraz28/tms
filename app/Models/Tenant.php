@@ -18,6 +18,7 @@ class Tenant extends Model
         'property_id',
         'status',
         'invoicing',
+        'invoice_month',
     ];
 
     public function property()

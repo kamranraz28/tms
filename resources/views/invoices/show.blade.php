@@ -106,7 +106,13 @@
     <div class="invoice-box">
         <div class="invoice-header">
             <h1>Tenant Invoice</h1>
-            <h5>{{ now()->format('F, Y') }}</h5>
+            <h5>
+                {{ $tenant->invoice_month == 1
+                    ? now()->format('F, Y')
+                    : now()->subMonth()->format('F, Y')
+                }}
+            </h5>
+
         </div>
 
         <div class="mb-4">
