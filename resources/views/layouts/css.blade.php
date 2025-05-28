@@ -7,3 +7,5 @@
 
 <!-- Custom vendor CSS (Make sure this comes last to override other styles) -->
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+

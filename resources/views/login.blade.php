@@ -38,7 +38,7 @@
                     <div class="card-body">
                         <form action="{{ route('userLogin') }}" method="POST">
                             @csrf
-                            <h4 class="mb-3 f-w-400">Signin</h4>
+                            <h4 class="mb-3 f-w-400">Sign-In</h4>
                             <hr>
                             <div class="form-group mb-3">
                                 <input type="text" class="form-control" id="Email" name="email"

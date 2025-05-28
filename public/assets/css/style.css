@@ -27637,7 +27637,6 @@ text.highcharts-drilldown-data-label {
     overflow: hidden;
     min-width: 100%;
     min-height: 100vh;
-    background: #1abc9c;
     background-image: url("../images/auth/building.jpg");
     background-size: cover;
     background-attachment: fixed;
@@ -29122,7 +29121,8 @@ new-task label input[type=checkbox] {
     top: 0;
 }
 
-@media (max-width: 992px) {
+@media    background: #1abc9c;
+ (max-width: 992px) {
     .hd-detail .col-right .edit-del {
         opacity: 1;
     }

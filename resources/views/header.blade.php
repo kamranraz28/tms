@@ -19,48 +19,7 @@
     </div>
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto">
-            <li>
-                @can('notification_access')
-                <div class="dropdown">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                        <i class="icon feather icon-bell"></i>
-                        <span class="badge badge-pill badge-danger">{{ $notifications->count() }}</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right notification">
-                        <div class="noti-head">
-                            <h6 class="d-inline-block m-b-0">Notifications</h6>
-                            <div class="float-right">
-                                <a href="{{ route('clearAll')}}">clear all</a>
-                            </div>
-                        </div>
-                        <ul class="noti-body">
-                            @foreach ($notifications as $notification)
-                                <li class="notification" >
-                                    <div class="media">
-                                        @php
-                                            // Get the user who created the notification
-                                            $creator = $notification->created_by ? $notification->created_by()->first() : null;
-                                        @endphp
 
-                                        <img class="img-fluid rounded-circle"
-                                            src="{{ $creator && $creator->image ? asset('storage/img/' . $creator->image) : asset('assets/images/user/avatar-2.jpg') }}"
-                                            alt="User-Profile-Image" style="width: 35px; height: 35px;">
-
-                                        <div class="media-body">
-                                            <p><strong>{{ $notification->message }}</strong>
-                                                <span style="float: right;">
-                                                    {{ $notification->created_at->diffForHumans() }}
-                                                </span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-                @endcan
-            </li>
             <li>
                 <div class="dropdown drp-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
