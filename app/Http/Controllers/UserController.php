@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Property;
+use App\Models\Tenant;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -31,8 +33,11 @@ class UserController extends Controller
 
     public function dashboard()
     {
-        $userTotal = User::count();
-        return view('dashboard',compact('userTotal'));
+        $tenants = Tenant::all();
+        $tenantCount = $tenants->count();
+        $activeTenants = $tenants->where('status', 1)->count();
+        $totalProperties = Property::count();
+        return view('dashboard',compact('tenants', 'tenantCount', 'activeTenants', 'totalProperties'));
     }
 
     public function create()
