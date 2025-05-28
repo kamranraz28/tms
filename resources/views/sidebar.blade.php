@@ -89,7 +89,7 @@
 
                 <li class="nav-item">
                     <a href="{{ route('costs.index') }}" class="nav-link">
-                        <span class="pcoded-micon"><i class="feather icon-dollar-sign"></i></span>
+                        <span class="pcoded-micon"><i class="feather icon-credit-card"></i></span>
                         <span class="pcoded-mtext">Costs</span>
                     </a>
                 </li>
