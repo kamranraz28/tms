@@ -120,8 +120,14 @@ Route::middleware(['auth', 'preventBackAfterLogout'])->group(function () {
             Route::get('/costs', [ReportController::class, 'costs'])->name('costs');
             Route::post('/costs/filter', [ReportController::class, 'filterCosts'])->name('filterCosts');
             Route::get('/costs/reset', [ReportController::class, 'resetCosts'])->name('resetCosts');
+            Route::get('/payments', [ReportController::class, 'payments'])->name('payments');
+            Route::post('/payments/filter', [ReportController::class, 'filterPayments'])->name('filterPayments');
+            Route::get('/payments/reset', [ReportController::class, 'resetPayments'])->name('resetPayments');
 
 
     });
+    Route::get('/tenant-payment/{tenant}/{month}', [ReportController::class, 'markPaid'])->name('tenant.payment');
+    Route::get('/tenant-payment-reverse/{tenant}/{month}', [ReportController::class, 'reverse'])->name('tenant.paymentReverse');
+
 
 });

@@ -32,13 +32,52 @@ class UserController extends Controller
     }
 
     public function dashboard()
-    {
-        $tenants = Tenant::all();
-        $tenantCount = $tenants->count();
-        $activeTenants = $tenants->where('status', 1)->count();
-        $totalProperties = Property::count();
-        return view('dashboard',compact('tenants', 'tenantCount', 'activeTenants', 'totalProperties'));
-    }
+{
+    $tenants = Tenant::with(['payments', 'tenantServices'])->where('status', 1)->get();
+    $tenantCount = Tenant::count();
+    $activeTenants = $tenants->count();
+    $totalProperties = Property::count();
+
+    $currentMonth = now()->format('Y-m'); // format like '2025-05'
+
+    // Active tenants who paid this month (have payment record for current month)
+    $paidTenantIds = $tenants->filter(function ($tenant) use ($currentMonth) {
+        return $tenant->payments->contains('payment_month', $currentMonth);
+    })->pluck('id');
+
+    $paidTenantsCount = $paidTenantIds->count();
+    $unpaidTenantsCount = $activeTenants - $paidTenantsCount;
+
+    // Total payable value for all active tenants (sum of tenantServices values)
+    $totalPayableValue = $tenants->sum(function ($tenant) {
+        return $tenant->tenantServices->sum('value');
+    });
+
+    // Total paid value (sum of tenantServices for tenants who paid)
+    $totalPaidValue = $tenants->filter(function ($tenant) use ($paidTenantIds) {
+        return $paidTenantIds->contains($tenant->id);
+    })->sum(function ($tenant) {
+        return $tenant->tenantServices->sum('value');
+    });
+
+    $totalRemainingValue = $totalPayableValue - $totalPaidValue;
+
+    $thisMonth = now()->format('F Y'); // Get current month name and year
+
+    return view('dashboard', compact(
+        'tenants',
+        'tenantCount',
+        'activeTenants',
+        'totalProperties',
+        'paidTenantsCount',
+        'unpaidTenantsCount',
+        'totalPayableValue',
+        'totalPaidValue',
+        'totalRemainingValue',
+        'thisMonth'
+    ));
+}
+
 
     public function create()
     {

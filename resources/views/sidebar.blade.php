@@ -99,6 +99,7 @@
                     </a>
                     <ul class="pcoded-submenu" style="background-color: {{ $sidebarColor }};">
                         <li><a href="{{ route('reports.costs') }}">Cost Report</a></li>
+                        <li><a href="{{ route('reports.payments') }}">Payment Report</a></li>
                     </ul>
                 </li>
 
