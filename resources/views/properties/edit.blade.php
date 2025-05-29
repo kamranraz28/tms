@@ -36,16 +36,17 @@
 
         <!-- Position Dropdown -->
         <div class="col-md-6">
-            <label for="position_id" class="form-label fw-bold">Position</label>
-            <select name="position_id" id="position_id" class="form-control" required>
-                <option value="" disabled>Select a Position</option>
-                @foreach ($positions as $position)
-                    <option value="{{ $position->id }}" {{ $property->position_id == $position->id ? 'selected' : '' }}>
-                        {{ $position->name }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
+    <label for="position_id" class="form-label">Select Position</label>
+    <select name="position_id" id="position_id" class="form-control" required>
+        <option value="" selected disabled>Select a Position</option>
+        @foreach ($positions as $position)
+            <option value="{{ $position->id }}" {{ old('position_id', $property->position_id ?? '') == $position->id ? 'selected' : '' }}>
+                {{ $position->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
         <!-- Property Name -->
         <div class="col-md-6">

@@ -1,143 +1,150 @@
 @extends('layouts.master')
 
-@section('title', 'Dashboard')
+@section('title', 'Add Costs')
 
 @section('content')
 
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center"
-            role="alert">
-            <span>{{ session('success') }}</span>
-            <button type="button" class="btn" data-bs-dismiss="alert" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
+@if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center"
+        role="alert" style="animation: fadeInDown 0.5s;">
+        <span>{{ session('success') }}</span>
+        <button type="button" class="btn" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between align-items-center"
+        role="alert" style="animation: fadeInDown 0.5s;">
+        <span>{{ session('error') }}</span>
+        <button type="button" class="btn" data-bs-dismiss="alert" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+@endif
+
+<div class="common-container container mt-4 p-4 shadow rounded bg-white">
+
+    <h2 class="text-center mb-5 fw-bold">Add Costs</h2>
+
+    <form action="{{ route('costs.store') }}" method="POST" enctype="multipart/form-data" class="row g-4">
+        @csrf
+
+        <div class="col-md-6">
+            <label for="date" class="form-label fw-bold">Select Date</label>
+            <input type="date" name="date" id="date" class="form-control" required>
         </div>
-    @endif
 
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show d-flex justify-content-between align-items-center"
-            role="alert">
-            <span>{{ session('error') }}</span>
-            <button type="button" class="btn" data-bs-dismiss="alert" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    @endif
+        <div id="field-container" class="col-12">
+            <div class="row mb-3 field-group align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Service</label>
+                    <select name="service_id[]" class="form-control" required>
+                        <option value="">-- Select Service --</option>
+                        @foreach ($services as $service)
+                            <option value="{{ $service->id }}">{{ $service->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-    <section class="blog-one">
-        <div class="container">
-            <div class="row gutter-y-30">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">Add Costs</h5>
-                        </div>
-                        <div class="card-body">
-                            <form action="{{ route('costs.store') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Amount</label>
+                    <input type="text" name="amount[]" class="form-control" placeholder="Amount" required>
+                </div>
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="date">Select Date</label>
-                                        <input type="date" name="date" id="date" class="form-control" required>
-                                    </div>
-                                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Voucher</label>
+                    <input type="file" name="voucher[]" class="form-control">
+                </div>
 
-                                <!-- Dynamic Fields -->
-                                <div id="field-container">
-                                    <div class="row mb-3 field-group">
-                                        <div class="col-md-4">
-                                            <label>Service</label>
-                                            <select name="service_id[]" class="form-control" required>
-                                                <option value="">-- Select Service --</option>
-                                                @foreach ($services as $service)
-                                                    <option value="{{ $service->id }}">{{ $service->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <label>Amount</label>
-                                            <input type="text" name="amount[]" class="form-control" placeholder="Amount"
-                                                required>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <label>Voucher</label>
-                                            <input type="file" name="voucher[]" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-2 d-flex align-items-end">
-                                            <button type="button" class="btn btn-danger remove-field"
-                                                style="display: none;">Remove</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn btn-primary mt-2" id="add-more">Add More</button>
-                                <button type="submit" class="btn btn-success mt-2">Submit</button>
-                            </form>
-                        </div>
-                    </div>
+                <div class="col-md-2 d-flex align-items-center">
+                    <button type="button" class="btn btn-danger remove-field" style="display: none;">Remove</button>
                 </div>
             </div>
-    </section>
+        </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const fieldContainer = document.getElementById('field-container');
-            const addMoreBtn = document.getElementById('add-more');
+        <div class="col-12 d-flex justify-content-between">
+            <button type="button" class="btn btn-primary" id="add-more" style="background-color: {{ $buttonColor }};">Add More</button>
+            <button type="submit" class="btn btn-success" style="background-color: {{ $buttonColor }};">Submit</button>
+        </div>
+    </form>
+</div>
 
-            addMoreBtn.addEventListener('click', function () {
-                const fieldGroup = document.createElement('div');
-                fieldGroup.classList.add('row', 'mb-3', 'field-group');
+<style>
+    /* Smooth alert fade-in */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-                fieldGroup.innerHTML = `
-                    <div class="col-md-4">
-                        <label>Service</label>
-                        <select name="service_id[]" class="form-control" required>
-                            <option value="">-- Select Service --</option>
-                            @foreach ($services as $service)
-                                <option value="{{ $service->id }}">{{ $service->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+    /* Consistent label font weight */
+    .form-label {
+        font-weight: 600;
+    }
+</style>
 
-                    <div class="col-md-3">
-                        <label>Amount</label>
-                        <input type="text" name="amount[]" class="form-control" placeholder="Amount" required>
-                    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fieldContainer = document.getElementById('field-container');
+        const addMoreBtn = document.getElementById('add-more');
 
-                    <div class="col-md-3">
-                        <label>Voucher</label>
-                        <input type="file" name="voucher[]" class="form-control">
-                    </div>
+        addMoreBtn.addEventListener('click', function () {
+            const fieldGroup = document.createElement('div');
+            fieldGroup.classList.add('row', 'mb-3', 'field-group', 'align-items-end');
 
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" class="btn btn-danger remove-field">Remove</button>
-                    </div>
-                `;
+            fieldGroup.innerHTML = `
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Service</label>
+                    <select name="service_id[]" class="form-control" required>
+                        <option value="">-- Select Service --</option>
+                        @foreach ($services as $service)
+                            <option value="{{ $service->id }}">{{ $service->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-                fieldContainer.appendChild(fieldGroup);
-                updateRemoveButtons();
-            });
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Amount</label>
+                    <input type="text" name="amount[]" class="form-control" placeholder="Amount" required>
+                </div>
 
-            fieldContainer.addEventListener('click', function (e) {
-                if (e.target.classList.contains('remove-field')) {
-                    e.target.closest('.field-group').remove();
-                    updateRemoveButtons();
-                }
-            });
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Voucher</label>
+                    <input type="file" name="voucher[]" class="form-control">
+                </div>
 
-            function updateRemoveButtons() {
-                const removeButtons = document.querySelectorAll('.remove-field');
-                removeButtons.forEach((btn, index) => {
-                    btn.style.display = index === 0 ? 'none' : 'block';
-                });
-            }
+                <div class="col-md-2 d-flex align-items-center">
+                    <button type="button" class="btn btn-danger remove-field">Remove</button>
+                </div>
+            `;
 
+            fieldContainer.appendChild(fieldGroup);
             updateRemoveButtons();
         });
-    </script>
+
+        fieldContainer.addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-field')) {
+                e.target.closest('.field-group').remove();
+                updateRemoveButtons();
+            }
+        });
+
+        function updateRemoveButtons() {
+            const removeButtons = document.querySelectorAll('.remove-field');
+            removeButtons.forEach((btn, index) => {
+                btn.style.display = index === 0 ? 'none' : 'inline-block';
+            });
+        }
+
+        updateRemoveButtons();
+    });
+</script>
 
 @endsection
