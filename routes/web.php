@@ -31,6 +31,11 @@ Route::get('/performance-test', function () {
     return 'Performance test completed!';
 });
 
+Route::get('/clear-cache', function () {
+    Artisan::call('optimize:clear');
+    return 'Cleared!';
+});
+
 
 
 Route::post('/user-login', [LoginController::class, 'userLogin'])->name('userLogin');

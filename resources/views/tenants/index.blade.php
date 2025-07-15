@@ -16,10 +16,10 @@
     <h2 class="mb-4 fw-bold text-center">All Tenants</h2>
 
     <div class="d-flex justify-content-end mb-4 gap-3 flex-wrap">
-        <a href="{{ route('sendInvoice') }}" class="btn btn-primary btn-lg" style="background-color: {{ $buttonColor }};">
+        <a href="{{ route('sendInvoice') }}" class="btn btn-primary btn-sm" style="background-color: {{ $buttonColor }};">
             <i class="fas fa-paper-plane me-2"></i> Send Invoice to All Tenants
         </a>
-        <a href="{{ route('tenants.create') }}" class="btn btn-success btn-lg" style="background-color: {{ $buttonColor }};">
+        <a href="{{ route('tenants.create') }}" class="btn btn-success btn-sm" style="background-color: {{ $buttonColor }};">
             <i class="fas fa-plus me-2"></i> Create Tenant
         </a>
     </div>
