@@ -103,7 +103,7 @@
                 <div class="card-body">
                     <form action="{{ route('userLogin') }}" method="POST">
                         @csrf
-                        <h4 class="mb-4 font-weight-bold">Tenant Management System</h4>
+                        <h4 class="mb-4 font-weight-bold">Tenant Management</h4>
 
                         @if(session('error'))
                             <div class="alert alert-danger">{{ session('error') }}</div>
