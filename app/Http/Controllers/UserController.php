@@ -2,81 +2,80 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserProfileRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Property;
-use App\Models\Tenant;
-use Illuminate\Http\Request;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Hash;
 use App\Models\Notification;
-use Illuminate\Support\Facades\Auth;
-use App\Services\UserService;
-use App\Http\Requests\StoreUserRequest;
+use App\Models\Property;
 use App\Models\Settings;
+use App\Models\Tenant;
+use App\Services\UserService;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 
 class UserController extends Controller
 {
     protected $userService;
+
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
     }
+
     public function index()
     {
-        $users= $this->userService->getAllUsers();
+        $users = $this->userService->getAllUsers();
 
-        return view('users.index', ['users'=>$users]);
+        return view('users.index', ['users' => $users]);
     }
 
     public function dashboard()
-{
-    $tenants = Tenant::with(['payments', 'tenantServices'])->where('status', 1)->get();
-    $tenantCount = Tenant::count();
-    $activeTenants = $tenants->count();
-    $totalProperties = Property::count();
+    {
+        $tenants = Tenant::with(['payments', 'tenantServices'])->where('status', 1)->get();
+        $tenantCount = Tenant::count();
+        $activeTenants = $tenants->count();
+        $totalProperties = Property::count();
 
-    $currentMonth = now()->format('Y-m'); // format like '2025-05'
+        $currentMonth = now()->format('Y-m'); // format like '2025-05'
 
-    // Active tenants who paid this month (have payment record for current month)
-    $paidTenantIds = $tenants->filter(function ($tenant) use ($currentMonth) {
-        return $tenant->payments->contains('payment_month', $currentMonth);
-    })->pluck('id');
+        // Active tenants who paid this month (have payment record for current month)
+        $paidTenantIds = $tenants->filter(function ($tenant) use ($currentMonth) {
+            return $tenant->payments->contains('payment_month', $currentMonth);
+        })->pluck('id');
 
-    $paidTenantsCount = $paidTenantIds->count();
-    $unpaidTenantsCount = $activeTenants - $paidTenantsCount;
+        $paidTenantsCount = $paidTenantIds->count();
+        $unpaidTenantsCount = $activeTenants - $paidTenantsCount;
 
-    // Total payable value for all active tenants (sum of tenantServices values)
-    $totalPayableValue = $tenants->sum(function ($tenant) {
-        return $tenant->tenantServices->sum('value');
-    });
+        // Total payable value for all active tenants (sum of tenantServices values)
+        $totalPayableValue = $tenants->sum(function ($tenant) {
+            return $tenant->tenantServices->sum('value');
+        });
 
-    // Total paid value (sum of tenantServices for tenants who paid)
-    $totalPaidValue = $tenants->filter(function ($tenant) use ($paidTenantIds) {
-        return $paidTenantIds->contains($tenant->id);
-    })->sum(function ($tenant) {
-        return $tenant->tenantServices->sum('value');
-    });
+        // Total paid value (sum of tenantServices for tenants who paid)
+        $totalPaidValue = $tenants->filter(function ($tenant) use ($paidTenantIds) {
+            return $paidTenantIds->contains($tenant->id);
+        })->sum(function ($tenant) {
+            return $tenant->tenantServices->sum('value');
+        });
 
-    $totalRemainingValue = $totalPayableValue - $totalPaidValue;
+        $totalRemainingValue = $totalPayableValue - $totalPaidValue;
 
-    $thisMonth = now()->format('F Y'); // Get current month name and year
+        $thisMonth = now()->format('F Y'); // Get current month name and year
 
-    return view('dashboard', compact(
-        'tenants',
-        'tenantCount',
-        'activeTenants',
-        'totalProperties',
-        'paidTenantsCount',
-        'unpaidTenantsCount',
-        'totalPayableValue',
-        'totalPaidValue',
-        'totalRemainingValue',
-        'thisMonth'
-    ));
-}
+        return view('dashboard', compact(
+            'tenants',
+            'tenantCount',
+            'activeTenants',
+            'totalProperties',
+            'paidTenantsCount',
+            'unpaidTenantsCount',
+            'totalPayableValue',
+            'totalPaidValue',
+            'totalRemainingValue',
+            'thisMonth'
+        ));
+    }
 
 
     public function create()
@@ -174,10 +173,6 @@ class UserController extends Controller
 
         return back()->with('success', 'Colors updated successfully!');
     }
-
-
-
-
 
 
 }
